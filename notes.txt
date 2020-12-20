@@ -1,0 +1,75 @@
+pwsh core - allows you to run on multiple envrionment
+Windows Pwsh is feature complete
+docker run -it mcr.microsoft.com/windows:1903 cmd.exe
+docker run -it mcr.microsoft.com/windows/nanoserver:1903 cmd.exe
+
+//// Commands
+
+Get-Service
+
+get-service                                                                                                                           
+get-service | where-Object Status -eq 'Stopped'
+get-service | Where-Object Status -eq 'Stopped' | select-object Name,Status 
+$data = get-service | Where-Object Status -eq 'Stopped' | select-object Name,Status 
+$data
+$data | out-file .\services.csv                  
+notepad .\services.csv                                                                                               
+$data | export-csv .\Services2.csv                    
+get-content .\services2.csv | more  
+$PSVersionTable
+get-verb | more
+get-verb -verb set | format-list
+get-alias -Definition *service 
+
+
+//sort object
+
+
+////////
+$PSVersionTable
+Get-Command
+Get-Help
+Get-Member
+update-help
+
+
+/////// Now Understanding
+
+
+get-verb
+get-verb -Group Data
+get-verb -Group Data | format-list
+(get-command get-verb).parameters
+get-help get-service -detailed
+get-service -Name C*
+get-alias -Definition *service* // list the aliases for noun service 
+gsv -Name C*
+gsv C* -ComputerName Client01, DC01 // positional parameters
+gsv C* -Comp Client01, DC01 // shortens the parameter Name
+get-command -Verb get -Noun *PSRepos*
+get-command -Name F* -CommandType Function
+get-help -Name get-command -Detailed
+Get-InstalledModules
+get-command -CommandType Function | measure-object
+help get-command -Example
+get-history
+invoke history 1
+Get-History | out-file .\transcripts\history.txt
+Clear-History
+Start-transcript
+
+
+Get-Module -ListAvailable | Where {$_.Name -like 'AzureRM.*'} Foreach ($Module in $Modules) {Uninstall-Module $Module}
+
+
+Gathering information
+    Get-Command
+    Get-Help
+    Get-Member
+
+Get-NetFirewallRule -Name *RemoteDesktop* | FT 
+Get-NetFirewallRule -Name *RemoteDesktop* | Set-NetFirewallRule -Enabled 'True' -WhatIf // what if we did this action
+Get-ChildItem env: | more // env variable of the system
+GeGet-Variable | more // variables available with in powershell
+$computerName="client02"
+Write-output "The name of the remote computer is $computerName"
